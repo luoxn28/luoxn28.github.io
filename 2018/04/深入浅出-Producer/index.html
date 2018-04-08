@@ -99,14 +99,23 @@
 
 
 
-  <meta property="og:type" content="article">
+  <meta name="description" content="在分析Producer之前，首先要知道Producer在Rocketmq架构中所处的位置，也就是下图中的Producer集群。">
+<meta name="keywords" content="消息队列,Rocketmq">
+<meta property="og:type" content="article">
 <meta property="og:title" content="深入浅出 Producer">
 <meta property="og:url" content="http://topcoder.site/2018/04/深入浅出-Producer/index.html">
 <meta property="og:site_name" content="topcoder">
+<meta property="og:description" content="在分析Producer之前，首先要知道Producer在Rocketmq架构中所处的位置，也就是下图中的Producer集群。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-04-08T09:52:17.021Z">
+<meta property="og:image" content="http://topcoder.site/2018/04/深入浅出-Producer/namesrvs.png">
+<meta property="og:image" content="http://topcoder.site/2018/04/深入浅出-Producer/queue.png">
+<meta property="og:image" content="http://topcoder.site/2018/04/深入浅出-Producer/code.png">
+<meta property="og:image" content="http://topcoder.site/2018/04/深入浅出-Producer/msg.png">
+<meta property="og:updated_time" content="2018-04-08T09:56:52.439Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深入浅出 Producer">
+<meta name="twitter:description" content="在分析Producer之前，首先要知道Producer在Rocketmq架构中所处的位置，也就是下图中的Producer集群。">
+<meta name="twitter:image" content="http://topcoder.site/2018/04/深入浅出-Producer/namesrvs.png">
 
 
 
@@ -362,6 +371,24 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/中间件/" itemprop="url" rel="index"><span itemprop="name">中间件</span></a></span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -389,7 +416,26 @@
       
 
       
-        
+        <p>在分析Producer之前，首先要知道Producer在Rocketmq架构中所处的位置，也就是下图中的Producer集群。</p>
+<a id="more"></a>
+<p><img src="/2018/04/深入浅出-Producer/namesrvs.png" alt=""></p>
+<p>Producer端，其实只要关注消息的发送就行了（貌似是废话哈，Producer不关注消息发送还关注什么呢）。Producer默认使用轮询topic下所有队列，来实现发送的负载均衡。</p>
+<p><img src="/2018/04/深入浅出-Producer/queue.png" alt=""></p>
+<p>topic下队列是可以跨broker的，也就说这些队列可能处于不同的主机上。broker名字相同的是同一组broker，只不过ID为0的是master，其他的为slave。</p>
+<p>topic下实现轮询，Producer从namesrv获取的到Topic路由信息TopicPublishInfo，TopicPublishInfo下有topic对应的队列信息List<messagequeue> messageQueueList，在方法selectOneMessageQueue中会对TopicPublishInfo中的ThreadLocalIndex进行自增，然后取余获取一个队列进行发送。</messagequeue></p>
+<p><img src="/2018/04/深入浅出-Producer/code.png" alt=""></p>
+<p>producer在发送消息失败后，如果是SYNC通信，则会进行重试的1 + this.defaultMQProducer.getRetryTimesWhenSendFailed()次，会找下一个队列继续发送消息；如果是ASYNC通信，则是不会进行重试的。</p>
+<p>如果消息发往不存在的topic，则会从namesrv中选择一个broker，然后将消息发往该broker（broker-A），该broker接收到消息后，如果使能新建不存在的topic功能，则会创建该topic，然后会把该topic信息注册到namesrv，这样namesrv就有了刚新建的topic信息了。后续往该topic发送消息就知道该往哪个broker发送了，不过这里需要注意的是，该topic是在broker-A中创建的，其他broker默认是不会创建的，因为之后processor从nameserv中获取的该topic下的broker信息只有broker-A。</p>
+<p>producer发送普通消息流程图如下：<br><img src="/2018/04/深入浅出-Producer/msg.png" alt=""><br>（图片来源：<a href="http://blog.csdn.net/quhongwei_zhanqiu/article/details/39142077" target="_blank" rel="noopener">RocketMQ原理解析-producer 2.如何发送消息</a>）</p>
+<p>除了同步发送消息之外，还可以异步发送消息，代码示例如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">public void producer() throws Exception &#123;</span><br><span class="line">    DefaultMQProducer producer = new DefaultMQProducer(&quot;ProducerGroupName&quot;);</span><br><span class="line">    producer.setNamesrvAddr(&quot;192.168.2.33:9876&quot;);</span><br><span class="line">    producer.setInstanceName(&quot;Producer&quot;);</span><br><span class="line">    producer.start();</span><br><span class="line"> </span><br><span class="line">    Message message = new Message(&quot;topic&quot;, (&quot;hello world&quot;).getBytes());</span><br><span class="line">    producer.send(message, new SendCallback() &#123;</span><br><span class="line"> </span><br><span class="line">        @Override</span><br><span class="line">        public void onSuccess(SendResult sendResult) &#123;</span><br><span class="line">            System.out.println(Thread.currentThread().getName() + &quot;: onSuccess &quot; + sendResult);</span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">        @Override</span><br><span class="line">        public void onException(Throwable e) &#123;</span><br><span class="line">            System.out.println(Thread.currentThread().getName() + &quot;: onException&quot; + e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"> </span><br><span class="line">    producer.shutdown();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>发送异步消息，应用程序在调用send接口后不再等待与broker的网络通信完成就直接返回了，那么什么时候触发SendCallback的呢？先看一下异步发送的逻辑：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">// NettyRemotingAbstract</span><br><span class="line">public void invokeAsyncImpl(final Channel channel, final RemotingCommand request, final long timeoutMillis,</span><br><span class="line">    final InvokeCallback invokeCallback)</span><br><span class="line">    throws InterruptedException, RemotingTooMuchRequestException, RemotingTimeoutException, RemotingSendRequestException &#123;</span><br><span class="line">     </span><br><span class="line">    // opaque很重要，rocketmq网络通信使用opaque来区分单次网络通信</span><br><span class="line">    final int opaque = request.getOpaque();</span><br><span class="line">    final SemaphoreReleaseOnlyOnce once = new SemaphoreReleaseOnlyOnce(this.semaphoreAsync);</span><br><span class="line"> </span><br><span class="line">    final ResponseFuture responseFuture = new ResponseFuture(opaque, timeoutMillis, invokeCallback, once);</span><br><span class="line">     </span><br><span class="line">    // responseTable 用于存储准备发送消息对应的responseFuture</span><br><span class="line">    this.responseTable.put(opaque, responseFuture);</span><br><span class="line">    try &#123;</span><br><span class="line">        channel.writeAndFlush(request).addListener(new ChannelFutureListener() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void operationComplete(ChannelFuture f) throws Exception &#123;</span><br><span class="line">                if (f.isSuccess()) &#123;</span><br><span class="line">                    responseFuture.setSendRequestOK(true);</span><br><span class="line">                    return;</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    responseFuture.setSendRequestOK(false);</span><br><span class="line">                &#125;</span><br><span class="line"> </span><br><span class="line">                responseFuture.putResponse(null);</span><br><span class="line">                responseTable.remove(opaque);</span><br><span class="line">                try &#123;</span><br><span class="line">                    executeInvokeCallback(responseFuture);</span><br><span class="line">                &#125; catch (Throwable e) &#123;</span><br><span class="line">                    log.warn(&quot;excute callback in writeAndFlush addListener, and callback throw&quot;, e);</span><br><span class="line">                &#125; finally &#123;</span><br><span class="line">                    responseFuture.release();</span><br><span class="line">                &#125;</span><br><span class="line"> </span><br><span class="line">                log.warn(&quot;send a request command to channel &lt;&#123;&#125;&gt; failed.&quot;, RemotingHelper.parseChannelRemoteAddr(channel));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125; catch (Exception e) &#123;</span><br><span class="line">        responseFuture.release();</span><br><span class="line">        log.warn(&quot;send a request command to channel &lt;&quot; + RemotingHelper.parseChannelRemoteAddr(channel) + &quot;&gt; Exception&quot;, e);</span><br><span class="line">        throw new RemotingSendRequestException(RemotingHelper.parseChannelRemoteAddr(channel), e);</span><br><span class="line">    &#125;</span><br><span class="line">    //...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>消息发送给broker，当该次网络信息，Producer收到Broker的响应时，Netty会触发channelRead方法，最后会走到NettyRemotingAbstract.processResponseCommand方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">// NettyRemotingAbstract</span><br><span class="line">public void processResponseCommand(ChannelHandlerContext ctx, RemotingCommand cmd) &#123;</span><br><span class="line">    final int opaque = cmd.getOpaque();</span><br><span class="line">    final ResponseFuture responseFuture = responseTable.get(opaque);</span><br><span class="line">    if (responseFuture != null) &#123;</span><br><span class="line">        responseFuture.setResponseCommand(cmd);</span><br><span class="line"> </span><br><span class="line">        responseTable.remove(opaque);</span><br><span class="line"> </span><br><span class="line">        if (responseFuture.getInvokeCallback() != null) &#123;</span><br><span class="line">            // 这里会触发，发送消息时自定义的SendCallback</span><br><span class="line">            executeInvokeCallback(responseFuture);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            responseFuture.putResponse(cmd);</span><br><span class="line">            responseFuture.release();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        log.warn(&quot;receive response, but not matched any request, &quot; + RemotingHelper.parseChannelRemoteAddr(ctx.channel()));</span><br><span class="line">        log.warn(cmd.toString());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>普通消息发送OK了，那么如何发送顺序消息呢？rocketmq能够保证消息严格顺序，但是producer需要将顺序消息写入到同一个queue中，如何选择同一个queue呢，需要自定义MessageQueueSelector，代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// RocketMQ通过MessageQueueSelector中实现的算法来确定消息发送到哪一个队列上</span><br><span class="line">// RocketMQ默认提供了两种MessageQueueSelector实现：随机/Hash</span><br><span class="line">// 当然你可以根据业务实现自己的MessageQueueSelector来决定消息按照何种策略发送到消息队列中</span><br><span class="line">SendResult sendResult = producer.send(msg, new MessageQueueSelector() &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public MessageQueue select(List&lt;MessageQueue&gt; mqs, Message msg, Object arg) &#123;</span><br><span class="line">        Integer id = (Integer) arg;</span><br><span class="line">        int index = id % mqs.size();</span><br><span class="line">        return mqs.get(index);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;, orderId);</span><br></pre></td></tr></table></figure>
+
       
     </div>
 
@@ -406,6 +452,14 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/消息队列/" rel="tag"><i class="fa fa-tag"></i> 消息队列</a>
+          
+            <a href="/tags/Rocketmq/" rel="tag"><i class="fa fa-tag"></i> Rocketmq</a>
+          
+        </div>
       
 
       
