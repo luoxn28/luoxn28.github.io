@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.0.6" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.0.6">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.0.6" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.0.6',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="在分析Namesrv之前，首先要知道Namesrv在Rocketmq架构中所处的位置，也就是下图中的Name Server集群。">
+<meta name="keywords" content="消息队列,Rocketmq">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深入浅出 Namesrv">
+<meta property="og:url" content="http://topcoder.site/2018/04/深入浅出-Namesrv/index.html">
+<meta property="og:site_name" content="topcoder">
+<meta property="og:description" content="在分析Namesrv之前，首先要知道Namesrv在Rocketmq架构中所处的位置，也就是下图中的Name Server集群。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://topcoder.site/2018/04/深入浅出-Namesrv/namesrvs.png">
+<meta property="og:image" content="http://topcoder.site/2018/04/深入浅出-Namesrv/codec.png">
+<meta property="og:updated_time" content="2018-04-08T09:50:29.564Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="深入浅出 Namesrv">
+<meta name="twitter:description" content="在分析Namesrv之前，首先要知道Namesrv在Rocketmq架构中所处的位置，也就是下图中的Name Server集群。">
+<meta name="twitter:image" content="http://topcoder.site/2018/04/深入浅出-Namesrv/namesrvs.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://topcoder.site/2018/04/深入浅出-Namesrv/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>深入浅出 Namesrv | topcoder</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+	
+	<a href="https://github.com/luoxn28" class="github-corner" aria-label="View source on Github"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> 
+
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">topcoder</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">a pure coder.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+          
+  <li class="menu-item menu-item-首页">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-分类">
+    <a href="/categories" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-标签">
+    <a href="/tags" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-文章">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />文章</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-关于">
+    <a href="/about" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+</li>
+
+      
+
+      
+    </ul>
+  
+
+  
+    
+
+    
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+    
+
+  
+
+
+  
+
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://topcoder.site/2018/04/深入浅出-Namesrv/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="topcoder">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="topcoder">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">深入浅出 Namesrv</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-04-07T18:06:58+08:00">2018-04-07</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/中间件/" itemprop="url" rel="index"><span itemprop="name">中间件</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在分析Namesrv之前，首先要知道Namesrv在Rocketmq架构中所处的位置，也就是下图中的Name Server集群。</p>
+<a id="more"></a>
+<p><img src="/2018/04/深入浅出-Namesrv/namesrvs.png" alt=""></p>
+<p>namesrv作为rocketmq的名称服务，是无状态可集群横向扩展的，其提供的功能可归纳为以下几点：<br>1、broker的注册中心，每个broker启动时向namesrv注册，broker包括master和slave。<br>2、每个producer发送消息时根据topic从namesrv获取broker信息。<br>3、每个consumer获取消息时根据topic从namesrv获取broker信息。</p>
+<p>Namesrv启动命令为sh bin/mqnamesrv，bin/mqnamesrv文件中启动namesrv的命令如下：<br><code>sh ${ROCKETMQ_HOME}/bin/runserver.sh org.apache.rocketmq.namesrv.NamesrvStartup $@</code></p>
+<p>从启动命令可以看出Namesrv的启动类是NamesrvStartup（当然使用命令jps -l也能看出），分析namesrv，下面我们就从该类开始。</p>
+<p><strong>NamesrvStartup.main流程：</strong><br>1、首先是解析命令行，也就是启动类时传入的args，比如-c 表示使用配置文件(.properties)来初始化namesrv配置类，比如-p表示打印namesrv的启动配置信息。（解析命令行使用commons-cli）<br>2、初始化logger配置，默认使用{ROCKET_HOME}/conf/logback_namesrv.xml配置文件。<br>3、创建NamesrvController，并调用其initialize方法，initialize初始化过程如下：</p>
+<ul>
+<li>加载kvConfig.json至KVConfigManager的configTable，即由持久化加载到内存。</li>
+<li>创建remotingServer，namesrv作为netty服务启动。</li>
+<li>创建请求处理线程remotingExecutor，并注册DefaultRequestProcessor和remotingExecutor。等到netty启动后即可处理请求了。</li>
+<li>向scheduledExecutorService中添加定时任务，用于扫描broker是否过期。</li>
+</ul>
+<p>4、注册jvm的ShutdownHook，用于进程退出时清除资源。<br>5、调用controller.start启动netty服务，也就是启动NettyRomotingServer。</p>
+<ul>
+<li>创建线程组DefaultEventExecutorGroup，即业务线程组。</li>
+<li>使用nettyServerConfig配置信息启动ServerBootstrap。</li>
+<li>添加Timer任务，扫描过期请求，任务间隔1s。</li>
+</ul>
+<p>以上就是Namesrv的启动流程，详细信息可直接看源码，下面来看下启动ServerBootstrap部分代码。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line">// controller.start() -&gt; remotingServer.start()</span><br><span class="line">public void start() &#123;</span><br><span class="line">    /**</span><br><span class="line">     * 这个是作为EventExecutorGroup，在ch.pipeline().addList(EventExecutorGroup)时传给netty的,</span><br><span class="line">     * 也就说，在netty的IO处理线程中，会将处理逻辑传递给NettyServerCodecThread，</span><br><span class="line">     * 然后NettyServerCodecThread稍加处理(解码)后传递给namesrv的业务线程，也就是RemotingExecutorThread线程来处理。</span><br><span class="line">     */</span><br><span class="line">    this.defaultEventExecutorGroup = new DefaultEventExecutorGroup(</span><br><span class="line">        nettyServerConfig.getServerWorkerThreads(),</span><br><span class="line">        new ThreadFactory() &#123;</span><br><span class="line"> </span><br><span class="line">            private AtomicInteger threadIndex = new AtomicInteger(0);</span><br><span class="line"> </span><br><span class="line">            @Override</span><br><span class="line">            public Thread newThread(Runnable r) &#123;</span><br><span class="line">                return new Thread(r, &quot;NettyServerCodecThread_&quot; + this.threadIndex.incrementAndGet());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"> </span><br><span class="line">    /**</span><br><span class="line">     * eventLoopGroupBoss: listen线程池，selector</span><br><span class="line">     * eventLoopGroupSelector: IO执行线程池，负责读写操作</span><br><span class="line">     * defaultEventExecutorGroup: NettyServerCodecThread 线程池</span><br><span class="line">     */</span><br><span class="line">    ServerBootstrap childHandler =</span><br><span class="line">        this.serverBootstrap.group(this.eventLoopGroupBoss, this.eventLoopGroupSelector)</span><br><span class="line">            .channel(useEpoll() ? EpollServerSocketChannel.class : NioServerSocketChannel.class)</span><br><span class="line">            .option(ChannelOption.SO_BACKLOG, 1024)</span><br><span class="line">            .option(ChannelOption.SO_REUSEADDR, true)</span><br><span class="line">            .option(ChannelOption.SO_KEEPALIVE, false)</span><br><span class="line">            .childOption(ChannelOption.TCP_NODELAY, true)</span><br><span class="line">            .childOption(ChannelOption.SO_SNDBUF, nettyServerConfig.getServerSocketSndBufSize())</span><br><span class="line">            .childOption(ChannelOption.SO_RCVBUF, nettyServerConfig.getServerSocketRcvBufSize())</span><br><span class="line">            .localAddress(new InetSocketAddress(this.nettyServerConfig.getListenPort()))</span><br><span class="line">            .childHandler(new ChannelInitializer&lt;SocketChannel&gt;() &#123;</span><br><span class="line">                @Override</span><br><span class="line">                public void initChannel(SocketChannel ch) throws Exception &#123;</span><br><span class="line">                    ch.pipeline()</span><br><span class="line">                        .addLast(defaultEventExecutorGroup, HANDSHAKE_HANDLER_NAME,</span><br><span class="line">                            new HandshakeHandler(TlsSystemConfig.tlsMode))</span><br><span class="line">                        .addLast(defaultEventExecutorGroup,</span><br><span class="line">                            new NettyEncoder(),</span><br><span class="line">                            new NettyDecoder(),</span><br><span class="line">                            new IdleStateHandler(0, 0, nettyServerConfig.getServerChannelMaxIdleTimeSeconds()),</span><br><span class="line">                            new NettyConnectManageHandler(),</span><br><span class="line">                            new NettyServerHandler()</span><br><span class="line">                        );</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line"> </span><br><span class="line">    if (nettyServerConfig.isServerPooledByteBufAllocatorEnable()) &#123;</span><br><span class="line">        childHandler.childOption(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    try &#123;</span><br><span class="line">        // bind/listen 开始服务</span><br><span class="line">        ChannelFuture sync = this.serverBootstrap.bind().sync();</span><br><span class="line">        InetSocketAddress addr = (InetSocketAddress) sync.channel().localAddress();</span><br><span class="line">        this.port = addr.getPort();</span><br><span class="line">    &#125; catch (InterruptedException e1) &#123;</span><br><span class="line">        throw new RuntimeException(&quot;this.serverBootstrap.bind().sync() InterruptedException&quot;, e1);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    if (this.channelEventListener != null) &#123;</span><br><span class="line">        this.nettyEventExecutor.start();</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    this.timer.scheduleAtFixedRate(new TimerTask() &#123;</span><br><span class="line"> </span><br><span class="line">        @Override</span><br><span class="line">        public void run() &#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                NettyRemotingServer.this.scanResponseTable();</span><br><span class="line">            &#125; catch (Throwable e) &#123;</span><br><span class="line">                log.error(&quot;scanResponseTable exception&quot;, e);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;, 1000 * 3, 1000);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从ServerBootstrap初始化参数来看，请求到来时，首先会到达eventLoopGroupSelector中，然后到达defaultEventExecutorGroup中的NettyDecoder进行消息解码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">public Object decode(ChannelHandlerContext ctx, ByteBuf in) throws Exception &#123;</span><br><span class="line">    System.out.println(&quot;decode: &quot; + Thread.currentThread().getName());</span><br><span class="line">    ByteBuf frame = null;</span><br><span class="line">    try &#123;</span><br><span class="line">        frame = (ByteBuf) super.decode(ctx, in);</span><br><span class="line">        if (null == frame) &#123;</span><br><span class="line">            return null;</span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">        ByteBuffer byteBuffer = frame.nioBuffer();</span><br><span class="line">        return RemotingCommand.decode(byteBuffer);</span><br><span class="line">    &#125; catch (Exception e) &#123;</span><br><span class="line">        log.error(&quot;decode exception, &quot; + RemotingHelper.parseChannelRemoteAddr(ctx.channel()), e);</span><br><span class="line">        RemotingUtil.closeChannel(ctx.channel());</span><br><span class="line">    &#125; finally &#123;</span><br><span class="line">        if (null != frame) &#123;</span><br><span class="line">            frame.release();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    return null;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>解码之后消息流转到NettyServerHandler.channelRead0，在processRequestCommand中会针对cmd code查找对应的requestProcessor和executorService，然后submit给对应的executorService。</p>
+<p><img src="/2018/04/深入浅出-Namesrv/codec.png" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line">// channelRead0 -&gt; processMessageReceived -&gt; processRequestCommand</span><br><span class="line">public void processRequestCommand(final ChannelHandlerContext ctx, final RemotingCommand cmd) &#123;</span><br><span class="line">    /**</span><br><span class="line">     * processorTable 针对cmd code自定义的处理器，如果该cmd code没有自定义处理器，则使用defaultRequestProcessor</span><br><span class="line">     */</span><br><span class="line">    final Pair&lt;NettyRequestProcessor, ExecutorService&gt; matched = this.processorTable.get(cmd.getCode());</span><br><span class="line">    final Pair&lt;NettyRequestProcessor, ExecutorService&gt; pair = null == matched ? this.defaultRequestProcessor : matched;</span><br><span class="line">    final int opaque = cmd.getOpaque();</span><br><span class="line"> </span><br><span class="line">    // 任务，submit给RemotingExecutorThread线程的</span><br><span class="line">    Runnable run = new Runnable() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void run() &#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                // RemotingExecutorThread线程中，处理请求</span><br><span class="line">                RPCHook rpcHook = NettyRemotingAbstract.this.getRPCHook();</span><br><span class="line">                if (rpcHook != null) &#123;</span><br><span class="line">                    rpcHook.doBeforeRequest(RemotingHelper.parseChannelRemoteAddr(ctx.channel()), cmd);</span><br><span class="line">                &#125;</span><br><span class="line"> </span><br><span class="line">                final RemotingCommand response = pair.getObject1().processRequest(ctx, cmd);</span><br><span class="line">                if (rpcHook != null) &#123;</span><br><span class="line">                    rpcHook.doAfterResponse(RemotingHelper.parseChannelRemoteAddr(ctx.channel()), cmd, response);</span><br><span class="line">                &#125;</span><br><span class="line"> </span><br><span class="line">                if (!cmd.isOnewayRPC()) &#123;</span><br><span class="line">                    if (response != null) &#123;</span><br><span class="line">                        response.setOpaque(opaque);</span><br><span class="line">                        response.markResponseType();</span><br><span class="line">                        try &#123;</span><br><span class="line">                            ctx.writeAndFlush(response);</span><br><span class="line">                        &#125; catch (Throwable e) &#123;</span><br><span class="line">                            log.error(&quot;process request over, but response failed&quot;, e);</span><br><span class="line">                            log.error(cmd.toString());</span><br><span class="line">                            log.error(response.toString());</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125; else &#123;</span><br><span class="line"> </span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; catch (Throwable e) &#123;</span><br><span class="line">                log.error(&quot;process request exception&quot;, e);</span><br><span class="line">                log.error(cmd.toString());</span><br><span class="line"> </span><br><span class="line">                if (!cmd.isOnewayRPC()) &#123;</span><br><span class="line">                    final RemotingCommand response = RemotingCommand.createResponseCommand(RemotingSysResponseCode.SYSTEM_ERROR,</span><br><span class="line">                        RemotingHelper.exceptionSimpleDesc(e));</span><br><span class="line">                    response.setOpaque(opaque);</span><br><span class="line">                    ctx.writeAndFlush(response);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"> </span><br><span class="line">    if (pair.getObject1().rejectRequest()) &#123;</span><br><span class="line">        final RemotingCommand response = RemotingCommand.createResponseCommand(RemotingSysResponseCode.SYSTEM_BUSY,</span><br><span class="line">            &quot;[REJECTREQUEST]system busy, start flow control for a while&quot;);</span><br><span class="line">        response.setOpaque(opaque);</span><br><span class="line">        ctx.writeAndFlush(response);</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    try &#123;</span><br><span class="line">        // 任务提交</span><br><span class="line">        final RequestTask requestTask = new RequestTask(run, ctx.channel(), cmd);</span><br><span class="line">        pair.getObject2().submit(requestTask);</span><br><span class="line">    &#125; catch (RejectedExecutionException e) &#123;</span><br><span class="line">        // ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>将消息submit给cmd code对应的executorService后，就进入到了上面代码中的Runnable方法，在Runnable方法中传递给requestProcessor来处理。以cmd code为GET_ROUTEINTO_BY_TOPIC为例，该request是在Consumer端启动与Namesrv建立连接后请求routerInfo的，因为GET_ROUTEINTO_BY_TOPIC没有自定义requestProcessor和executorService，然后它的requestProcessor就是defaultRequestProcessor。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">// DefaultRequestProcessor</span><br><span class="line">public RemotingCommand processRequest(ChannelHandlerContext ctx,</span><br><span class="line">    RemotingCommand request) throws RemotingCommandException &#123;</span><br><span class="line">    switch (request.getCode()) &#123;</span><br><span class="line">        case RequestCode.PUT_KV_CONFIG:</span><br><span class="line">            return this.putKVConfig(ctx, request);</span><br><span class="line">        case RequestCode.GET_KV_CONFIG:</span><br><span class="line">            return this.getKVConfig(ctx, request);</span><br><span class="line">        case RequestCode.DELETE_KV_CONFIG:</span><br><span class="line">            return this.deleteKVConfig(ctx, request);</span><br><span class="line">        case RequestCode.REGISTER_BROKER:</span><br><span class="line">            Version brokerVersion = MQVersion.value2Version(request.getVersion());</span><br><span class="line">            if (brokerVersion.ordinal() &gt;= MQVersion.Version.V3_0_11.ordinal()) &#123;</span><br><span class="line">                return this.registerBrokerWithFilterServer(ctx, request);</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                return this.registerBroker(ctx, request);</span><br><span class="line">            &#125;</span><br><span class="line">        case RequestCode.UNREGISTER_BROKER:</span><br><span class="line">            return this.unregisterBroker(ctx, request);</span><br><span class="line">        case RequestCode.GET_ROUTEINTO_BY_TOPIC:</span><br><span class="line">            return this.getRouteInfoByTopic(ctx, request);</span><br><span class="line">        case RequestCode.GET_BROKER_CLUSTER_INFO:</span><br><span class="line">            return this.getBrokerClusterInfo(ctx, request);</span><br><span class="line">        case RequestCode.WIPE_WRITE_PERM_OF_BROKER:</span><br><span class="line">            return this.wipeWritePermOfBroker(ctx, request);</span><br><span class="line">        case RequestCode.GET_ALL_TOPIC_LIST_FROM_NAMESERVER:</span><br><span class="line">            return getAllTopicListFromNameserver(ctx, request);</span><br><span class="line">        case RequestCode.DELETE_TOPIC_IN_NAMESRV:</span><br><span class="line">            return deleteTopicInNamesrv(ctx, request);</span><br><span class="line">        case RequestCode.GET_KVLIST_BY_NAMESPACE:</span><br><span class="line">            return this.getKVListByNamespace(ctx, request);</span><br><span class="line">        case RequestCode.GET_TOPICS_BY_CLUSTER:</span><br><span class="line">            return this.getTopicsByCluster(ctx, request);</span><br><span class="line">        case RequestCode.GET_SYSTEM_TOPIC_LIST_FROM_NS:</span><br><span class="line">            return this.getSystemTopicListFromNs(ctx, request);</span><br><span class="line">        case RequestCode.GET_UNIT_TOPIC_LIST:</span><br><span class="line">            return this.getUnitTopicList(ctx, request);</span><br><span class="line">        case RequestCode.GET_HAS_UNIT_SUB_TOPIC_LIST:</span><br><span class="line">            return this.getHasUnitSubTopicList(ctx, request);</span><br><span class="line">        case RequestCode.GET_HAS_UNIT_SUB_UNUNIT_TOPIC_LIST:</span><br><span class="line">            return this.getHasUnitSubUnUnitTopicList(ctx, request);</span><br><span class="line">        case RequestCode.UPDATE_NAMESRV_CONFIG:</span><br><span class="line">            return this.updateConfig(ctx, request);</span><br><span class="line">        case RequestCode.GET_NAMESRV_CONFIG:</span><br><span class="line">            return this.getConfig(ctx, request);</span><br><span class="line">        default:</span><br><span class="line">            break;</span><br><span class="line">    &#125;</span><br><span class="line">    return null;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果是GET_ROUTEINTO_BY_TOPIC请求，则getRouteInfoByTopic获取topic对应的routerInfo，然后返回给Consumer，到这里为止Consumer与Namesrv的GET_ROUTEINTO_BY_TOPIC通信就完成了。</p>
+<p>当然，除了Consumer与Namesrv通信之外，还有Broker、Producer与Namesrv通信，它们的通信流程和Consumer的GET_ROUTEINTO_BY_TOPIC通信流程大同小异，这里就不再展开了。</p>
+<p>说了网络通信（与Consumer、Prosucer、Broker）的处理流程，这些处理流程最终的数据是保存在哪里的呢？这就不得不提Namesrv的信息仓库：<strong>RouteInfoManager</strong>。</p>
+<p>RouteInfoManager是namesrv中一个中的类，其主要属性如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">private final ReadWriteLock lock = new ReentrantReadWriteLock();</span><br><span class="line">private final HashMap&lt;String/* topic */, List&lt;QueueData&gt;&gt; topicQueueTable;</span><br><span class="line">private final HashMap&lt;String/* brokerName */, BrokerData&gt; brokerAddrTable;</span><br><span class="line">private final HashMap&lt;String/* clusterName */, Set&lt;String/* brokerName */&gt;&gt; clusterAddrTable;</span><br><span class="line">private final HashMap&lt;String/* brokerAddr */, BrokerLiveInfo&gt; brokerLiveTable;</span><br><span class="line">private final HashMap&lt;String/* brokerAddr */, List&lt;String&gt;/* Filter Server */&gt; filterServerTable;</span><br></pre></td></tr></table></figure>
+<p>以上属性通过名大致可看出都是保存什么数据的，这里之所以使用非线程安全的HashMap，是因为使用了读写锁来保证。brokerAddrTable和brokerLiveTable都保存的有broker信息，其中前者只保存首次注册的broker信息，后者主要是为了保存心跳的时间戳，用来判断该broker是否在线。其中扫非活跃的broker的方法是scanNotActiveBroker。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">// 时间间隔2分钟</span><br><span class="line">private final static long BROKER_CHANNEL_EXPIRED_TIME = 1000 * 60 * 2;</span><br><span class="line">public void scanNotActiveBroker() &#123;</span><br><span class="line">    Iterator&lt;Entry&lt;String, BrokerLiveInfo&gt;&gt; it = this.brokerLiveTable.entrySet().iterator();</span><br><span class="line">    while (it.hasNext()) &#123;</span><br><span class="line">        Entry&lt;String, BrokerLiveInfo&gt; next = it.next();</span><br><span class="line">        long last = next.getValue().getLastUpdateTimestamp();</span><br><span class="line">        if ((last + BROKER_CHANNEL_EXPIRED_TIME) &lt; System.currentTimeMillis()) &#123;</span><br><span class="line">            RemotingUtil.closeChannel(next.getValue().getChannel());</span><br><span class="line">            it.remove();</span><br><span class="line">            log.warn(&quot;The broker channel expired, &#123;&#125; &#123;&#125;ms&quot;, next.getKey(), BROKER_CHANNEL_EXPIRED_TIME);</span><br><span class="line">            this.onChannelDestroy(next.getKey(), next.getValue().getChannel());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果2分钟内没有收到broker的心跳信息，则将该broker从brokerLiveTable中移除，并且从brokerAddrTable中也移除该broker，如果该broker是master，则它的所有broker都将被删除。</p>
+<p>topicQueueTable存储topic及其queue数据，topicQueueTable的value是QueueData的List，可以看下QueueData中的属性：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">private String brokerName;  // broker的名称</span><br><span class="line">private int readQueueNums;  // 读队列数量</span><br><span class="line">private int writeQueueNums; // 写队列数量</span><br><span class="line">private int perm;           // 读写权限</span><br><span class="line">private int topicSynFlag;   // 同步复制还是异步复制标记</span><br></pre></td></tr></table></figure></p>
+<p>在say bye之前，笔者还是想说，虽然Namesrv代码不多（貌似1K左右），但是还有由多种类型的线程的：</p>
+<blockquote>
+<p>线程种类</p>
+<ul>
+<li>RemotingExecutorThread：namesrv的业务线程，处理namesrv接收到的请求，可能有多个。</li>
+<li>NettyServerCodecThread：这个是作为EventExecutorGroup，在ch.pipeline().addList(EventExecutorGroup)时传给netty的，也就说，在netty的IO处理线程中，会将处理逻辑传递给NettyServerCodecThread，然后NettyServerCodecThread稍加处理(解码)后传递给namesrv的业务线程，也就是RemotingExecutorThread线程来处理。</li>
+<li>NettyServerNIOSelector：Netty的childGroup，也就是IO处理线程，可能有多个。</li>
+<li>NettyBoss：Netty的parentGroup，也就是Accpter线程，可能有多个。</li>
+<li>NSScheduledThread：定时任务线程，扫描broker是否过期等。</li>
+<li>ServerHouseKeepingService：Timer守护线程，定时扫描连接</li>
+<li>NettyEventExecuter：一个线程，监听NettyChannel状态变化来通知ChannelEventListener做相应的动作</li>
+</ul>
+</blockquote>
+<p>是时候say bye了，关于Namesrv更多的分析请直接阅读源码或者参考网上Rocketmq文档。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+	
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/消息队列/" rel="tag"><i class="fa fa-tag"></i> 消息队列</a>
+          
+            <a href="/tags/Rocketmq/" rel="tag"><i class="fa fa-tag"></i> Rocketmq</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/深入浅出-Consumer/" rel="next" title="深入浅出 Consumer">
+                <i class="fa fa-chevron-left"></i> 深入浅出 Consumer
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/深入浅出-Producer/" rel="prev" title="深入浅出 Producer">
+                深入浅出 Producer <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">topcoder</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                    <span class="site-state-item-count">1</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/luoxn28" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.importnew.com/" title="ImportNew" target="_blank">ImportNew</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://ifeve.com/" title="Java并发网" target="_blank">Java并发网</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.cnblogs.com/ityouknow/p/" title="纯洁的微笑" target="_blank">纯洁的微笑</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://cockyyao.github.io/" title="CockyYao" target="_blank">CockyYao</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">topcoder</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">
+  <i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+    本站访客数:<span id="busuanzi_value_site_uv"></span>
+  </span>
+  </div>
+
+  <!--div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div-->
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+<div class="theme-info">topcoder</div>
+  <!--div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Mist</a> v6.0.6</div-->
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.0.6"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.6"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.6"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.0.6"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
