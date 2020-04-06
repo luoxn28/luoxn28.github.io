@@ -1,0 +1,532 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>luoxn28</title>
+  
+  <subtitle>南</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://luoxn28.github.io/"/>
+  <updated>2020-04-06T09:01:08.801Z</updated>
+  <id>http://luoxn28.github.io/</id>
+  
+  <author>
+    <name>luoxn28</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>页式内存管理</title>
+    <link href="http://luoxn28.github.io/2020/03/31/ye-shi-nei-cun-guan-li/"/>
+    <id>http://luoxn28.github.io/2020/03/31/ye-shi-nei-cun-guan-li/</id>
+    <published>2020-03-31T15:35:45.000Z</published>
+    <updated>2020-04-06T09:01:08.801Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;内存管理&quot;&gt;&lt;a href=&quot;#内存管理&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="操作系统" scheme="http://luoxn28.github.io/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>group by中子查询order by排序失效问题分析</title>
+    <link href="http://luoxn28.github.io/2020/03/17/group-by-zhong-zi-cha-xun-order-by-pai-xu-shi-xiao-wen-ti-fen-xi/"/>
+    <id>http://luoxn28.github.io/2020/03/17/group-by-zhong-zi-cha-xun-order-by-pai-xu-shi-xiao-wen-ti-fen-xi/</id>
+    <published>2020-03-17T09:24:25.000Z</published>
+    <updated>2020-04-06T09:52:04.790Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;通过sql分组查询数据时，一般通过group by来完成，group
+        
+      
+    
+    </summary>
+    
+      <category term="MySQL" scheme="http://luoxn28.github.io/categories/MySQL/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Transmittable-Thread-Local：线程间上下文传递解决方案</title>
+    <link href="http://luoxn28.github.io/2020/03/16/transmittable-thread-local-xian-cheng-jian-shang-xia-wen-chuan-di-jie-jue-fang-an/"/>
+    <id>http://luoxn28.github.io/2020/03/16/transmittable-thread-local-xian-cheng-jian-shang-xia-wen-chuan-di-jie-jue-fang-an/</id>
+    <published>2020-03-16T08:45:38.000Z</published>
+    <updated>2020-04-06T09:01:08.838Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;TTL（transmittable-thread-local）是一个线程间传递ThreadLocal，异步执行时上下文传递的解决方案。整个库的核心是构建在TransmittableThreadLocal类（继承并加强InheritableThrea
+        
+      
+    
+    </summary>
+    
+      <category term="随笔" scheme="http://luoxn28.github.io/categories/%E9%9A%8F%E7%AC%94/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>线程池如何传递线程上下文信息</title>
+    <link href="http://luoxn28.github.io/2020/03/13/xian-cheng-chi-ru-he-chuan-di-xian-cheng-shang-xia-wen-xin-xi/"/>
+    <id>http://luoxn28.github.io/2020/03/13/xian-cheng-chi-ru-he-chuan-di-xian-cheng-shang-xia-wen-xin-xi/</id>
+    <published>2020-03-13T09:22:54.000Z</published>
+    <updated>2020-04-06T09:24:25.752Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;业务开发中，一般都会使用ThreadLocal保存一些上下文信息，但是在线程池中执行对应逻辑时，由于是不同线程所以无法获取之前线程的上下文信息。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;线程池的线程上下文传递，实现方案就是在提交任务时记录当前线程
+        
+      
+    
+    </summary>
+    
+      <category term="随笔" scheme="http://luoxn28.github.io/categories/%E9%9A%8F%E7%AC%94/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>ToString如何反序列化</title>
+    <link href="http://luoxn28.github.io/2020/03/08/tostring-ru-he-fan-xu-lie-hua/"/>
+    <id>http://luoxn28.github.io/2020/03/08/tostring-ru-he-fan-xu-lie-hua/</id>
+    <published>2020-03-08T09:24:25.000Z</published>
+    <updated>2020-04-06T09:25:01.524Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;不知道小伙伴们有没有这样的困扰，平常开发中写单测，要mock一个复杂的对象，并且也知道了该对象的toString格式数据（比如从日志中获取），但是该怎么构建这个对象呢？&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;如果是json格式可以直接通过json反序列化得到对象，那么to
+        
+      
+    
+    </summary>
+    
+      <category term="Java" scheme="http://luoxn28.github.io/categories/Java/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Java并发工具类</title>
+    <link href="http://luoxn28.github.io/2020/02/29/java-bing-fa-gong-ju-lei/"/>
+    <id>http://luoxn28.github.io/2020/02/29/java-bing-fa-gong-ju-lei/</id>
+    <published>2020-02-29T09:30:28.000Z</published>
+    <updated>2020-04-06T09:31:22.396Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;Java并发工具类主要有CyclicBarrier、CountDownLatch、Semaphore和Exchanger，日常开发中经常使用的是CountDownLatch和Semaphore。下面就简单分析下这几个并发工具类：&lt;/p&gt;
+&lt;h3
+        
+      
+    
+    </summary>
+    
+      <category term="Java" scheme="http://luoxn28.github.io/categories/Java/"/>
+    
+    
+      <category term="多线程" scheme="http://luoxn28.github.io/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>一起聊聊3个线程依次打印1、2、3的故事</title>
+    <link href="http://luoxn28.github.io/2020/02/19/yi-qi-liao-liao-3-ge-xian-cheng-yi-ci-da-yin-1-2-3-de-gu-shi/"/>
+    <id>http://luoxn28.github.io/2020/02/19/yi-qi-liao-liao-3-ge-xian-cheng-yi-ci-da-yin-1-2-3-de-gu-shi/</id>
+    <published>2020-02-19T09:22:54.000Z</published>
+    <updated>2020-04-06T09:24:25.751Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;3个线程依次打印1、2、3…这个问题，常常被作为面试题，题目如下：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;三个线程，一个线程负责打印1，4，7，……；第二个负责打印2，5，8，……，第三个负责打印3，6，9，……，要求在控制台中按顺序输出1，2，3，4，5，6……。&lt;/p
+        
+      
+    
+    </summary>
+    
+      <category term="随笔" scheme="http://luoxn28.github.io/categories/%E9%9A%8F%E7%AC%94/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>kubernetes之Pod那些事</title>
+    <link href="http://luoxn28.github.io/2020/02/08/kubernetes-zhi-pod-na-xie-shi/"/>
+    <id>http://luoxn28.github.io/2020/02/08/kubernetes-zhi-pod-na-xie-shi/</id>
+    <published>2020-02-08T09:49:43.000Z</published>
+    <updated>2020-04-06T10:08:47.211Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;Pod是kubernetes中最小的资源管理组件，Pod也是最小化运行容器化应用的资源对象。kubernetes中其他大多数组件都是围绕着Pod来进行支撑和扩展Pod功能的，例如，用于管理Pod运行的StatefulSet和Deployment等控制器对象，用于暴露Pod应
+        
+      
+    
+    </summary>
+    
+    
+      <category term="kubernetes" scheme="http://luoxn28.github.io/tags/kubernetes/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>influxdb入门</title>
+    <link href="http://luoxn28.github.io/2020/01/28/influxdb-ru-men/"/>
+    <id>http://luoxn28.github.io/2020/01/28/influxdb-ru-men/</id>
+    <published>2020-01-28T09:35:08.000Z</published>
+    <updated>2020-04-06T09:37:42.688Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;InfluxDB是一个开源的时序数据库，使用GO语言开发，特别适合用于处理和分析资源监控数据这种时序相关数据。而InfluxDB自带的各种特殊函数如求标准差，随机取样数据，统计数据变化比等，使数据统计和实时分析变得十分方便。&lt;/p&gt;
+&lt;/block
+        
+      
+    
+    </summary>
+    
+    
+      <category term="influxdb" scheme="http://luoxn28.github.io/tags/influxdb/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>influxdb原理那些事</title>
+    <link href="http://luoxn28.github.io/2020/01/28/influxdb-yuan-li-na-xie-shi/"/>
+    <id>http://luoxn28.github.io/2020/01/28/influxdb-yuan-li-na-xie-shi/</id>
+    <published>2020-01-28T09:35:08.000Z</published>
+    <updated>2020-04-06T09:37:42.687Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;InfluxDB是一个开源的时序数据库，使用GO语言开发，特别适合用于处理和分析资源监控数据这种时序相关数据。而InfluxDB自带的各种特殊函数如求标准差，随机取样数据，统计数据变化比等，使数据统计和实时分析变得十分方便。&lt;/p&gt;
+&lt;p&gt;在目前的APM和后续的IoT场景中
+        
+      
+    
+    </summary>
+    
+    
+      <category term="influxdb" scheme="http://luoxn28.github.io/tags/influxdb/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>influxdb的命令们</title>
+    <link href="http://luoxn28.github.io/2020/01/28/influxdb-de-ming-ling-men/"/>
+    <id>http://luoxn28.github.io/2020/01/28/influxdb-de-ming-ling-men/</id>
+    <published>2020-01-28T09:35:08.000Z</published>
+    <updated>2020-04-06T09:37:42.689Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;InfluxDB是一个开源的时序数据库，使用GO语言开发，特别适合用于处理和分析资源监控数据这种时序相关数据。而InfluxDB自带的各种特殊函数如求标准差，随机取样数据，统计数据变化比等，使数据统计和实时分析变得十分方便。&lt;/p&gt;
+&lt;/block
+        
+      
+    
+    </summary>
+    
+    
+      <category term="influxdb" scheme="http://luoxn28.github.io/tags/influxdb/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>kubernetes基础概念</title>
+    <link href="http://luoxn28.github.io/2020/01/21/kubernetes-ji-chu-gai-nian/"/>
+    <id>http://luoxn28.github.io/2020/01/21/kubernetes-ji-chu-gai-nian/</id>
+    <published>2020-01-21T09:49:43.000Z</published>
+    <updated>2020-04-06T10:08:47.212Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;kubernetes（简称k8s）是一种用于在一组主机上运行和协同容器化应用程序的管理平台，皆在提供高可用、高扩展性和可预测性的方式来管理容器应用的生命周期。通过k8s，用户可以定义程序运行方式、部署升级策略、动态伸缩容，使得用户以一种更灵活可靠的方式来管理应用程序。&lt;/p
+        
+      
+    
+    </summary>
+    
+    
+      <category term="kubernetes" scheme="http://luoxn28.github.io/tags/kubernetes/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Docker网络通信</title>
+    <link href="http://luoxn28.github.io/2020/01/21/docker-wang-luo-tong-xin/"/>
+    <id>http://luoxn28.github.io/2020/01/21/docker-wang-luo-tong-xin/</id>
+    <published>2020-01-21T09:43:43.000Z</published>
+    <updated>2020-04-06T10:08:29.721Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;Docker是基于go语言开发，Linux下的底层技术主要基于cgroups、namespace以及联合文件技术实现的一种进程级别的轻量级虚拟化解决方案。由于Docker进程隔离独立于宿主机上其他进程，因此也称为容器，Docker在容器的基础上，进
+        
+      
+    
+    </summary>
+    
+    
+      <category term="docker" scheme="http://luoxn28.github.io/tags/docker/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>namespace原理解析</title>
+    <link href="http://luoxn28.github.io/2020/01/12/namespace-yuan-li-jie-xi/"/>
+    <id>http://luoxn28.github.io/2020/01/12/namespace-yuan-li-jie-xi/</id>
+    <published>2020-01-12T09:46:06.000Z</published>
+    <updated>2020-04-06T10:08:29.726Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="docker" scheme="http://luoxn28.github.io/tags/docker/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>代码到底需不需要注释</title>
+    <link href="http://luoxn28.github.io/2020/01/06/dai-ma-dao-di-xu-bu-xu-yao-zhu-shi/"/>
+    <id>http://luoxn28.github.io/2020/01/06/dai-ma-dao-di-xu-bu-xu-yao-zhu-shi/</id>
+    <published>2020-01-06T04:38:12.000Z</published>
+    <updated>2020-04-06T09:01:08.834Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;好的代码需不需要注释，这个问题其实不能直接说需要或者不需要，因为要视情况而定。&lt;strong&gt;如果一段代码功能较为简单且独立，同时代码风格较好，是不需要注释的，因为代码本身已经足够说明其用意了（代码即注释）；如果功能较复杂或者较为抽象，是需要合理注释的，方便他人阅读和快速理
+        
+      
+    
+    </summary>
+    
+      <category term="随笔" scheme="http://luoxn28.github.io/categories/%E9%9A%8F%E7%AC%94/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>cgroup原理解析</title>
+    <link href="http://luoxn28.github.io/2020/01/04/cgroup-yuan-li-jie-xi/"/>
+    <id>http://luoxn28.github.io/2020/01/04/cgroup-yuan-li-jie-xi/</id>
+    <published>2020-01-04T09:43:43.000Z</published>
+    <updated>2020-04-06T10:08:29.724Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;cgroup从2.6.4引入linux内核主线，目前默认已启用该特性。在cgroup出现之前，只能对一个进程做资源限制，比如通过sched_setaffinity设置进程cpu亲和性，使用ulimit限制进程打开文件上限、栈大小等。&lt;/p&gt;
+&lt;/b
+        
+      
+    
+    </summary>
+    
+    
+      <category term="docker" scheme="http://luoxn28.github.io/tags/docker/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Docker命令</title>
+    <link href="http://luoxn28.github.io/2019/12/29/docker-ming-ling/"/>
+    <id>http://luoxn28.github.io/2019/12/29/docker-ming-ling/</id>
+    <published>2019-12-29T09:46:06.000Z</published>
+    <updated>2020-04-06T10:08:29.729Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;学习Docker，首先需要了解Docker基本概念，然后就开始“动手”了（也就是敲Docker命令）。Docker命令较多，这里笔者总结下常用的Docker命令，方便小伙伴们查阅。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Docker是基于go语
+        
+      
+    
+    </summary>
+    
+    
+      <category term="docker" scheme="http://luoxn28.github.io/tags/docker/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>如何优雅地执行dubbo&quot;单测&quot;</title>
+    <link href="http://luoxn28.github.io/2019/12/21/ru-he-you-ya-di-zhi-xing-dubbo-dan-ce/"/>
+    <id>http://luoxn28.github.io/2019/12/21/ru-he-you-ya-di-zhi-xing-dubbo-dan-ce/</id>
+    <published>2019-12-21T09:21:22.000Z</published>
+    <updated>2020-04-06T09:27:34.484Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;很多小伙伴所在的公司是基于Dubbo来构建技术栈的，日常开发中必不可少要写dubbo单测（单元测试），如果单测数据依赖已有的外部dubbo服务，一般是mock数据，如果数据比较复杂，其实mock数据也是一个不小的工作量。那有没有更好的单测方式来代替我们完成”mock“数据功
+        
+      
+    
+    </summary>
+    
+      <category term="框架研究" scheme="http://luoxn28.github.io/categories/%E6%A1%86%E6%9E%B6%E7%A0%94%E7%A9%B6/"/>
+    
+    
+      <category term="dubbo" scheme="http://luoxn28.github.io/tags/dubbo/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Netty ByteBuf机制</title>
+    <link href="http://luoxn28.github.io/2019/11/30/netty-bytebuf-ji-zhi/"/>
+    <id>http://luoxn28.github.io/2019/11/30/netty-bytebuf-ji-zhi/</id>
+    <published>2019-11-30T09:56:05.000Z</published>
+    <updated>2020-04-06T10:07:21.763Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;缓冲区在计算机世界中随处可见，内存中的多级缓冲区，io设备的缓冲区等等，还有我们经常用的内存队列，分布式队列等等。缓冲区，平衡了数据产生方和数据消费方的处理效率差异，提高了数据处理性能。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;JDK为了解决网络
+        
+      
+    
+    </summary>
+    
+      <category term="框架研究" scheme="http://luoxn28.github.io/categories/%E6%A1%86%E6%9E%B6%E7%A0%94%E7%A9%B6/"/>
+    
+    
+      <category term="netty" scheme="http://luoxn28.github.io/tags/netty/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Netty 总结篇</title>
+    <link href="http://luoxn28.github.io/2019/11/30/netty-zong-jie-pian/"/>
+    <id>http://luoxn28.github.io/2019/11/30/netty-zong-jie-pian/</id>
+    <published>2019-11-30T09:56:05.000Z</published>
+    <updated>2020-04-06T10:07:21.767Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;Netty一个主要的目标就是促进“关注点分离”：&lt;strong&gt;使业务逻辑从网络基础设施应用程序中分离&lt;/strong&gt;。不仅仅是Netty框架，其他框架的设计目的也大都是为了使业务程序和底层技术解耦，使程序员更加专注于业务逻辑实现，提高开发质量和效率。Netty为什么性能
+        
+      
+    
+    </summary>
+    
+      <category term="框架研究" scheme="http://luoxn28.github.io/categories/%E6%A1%86%E6%9E%B6%E7%A0%94%E7%A9%B6/"/>
+    
+    
+      <category term="netty" scheme="http://luoxn28.github.io/tags/netty/"/>
+    
+  </entry>
+  
+</feed>
