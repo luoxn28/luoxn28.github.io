@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://luoxn28.github.io/"/>
-  <updated>2020-04-06T09:01:08.801Z</updated>
+  <updated>2020-07-03T15:24:33.353Z</updated>
   <id>http://luoxn28.github.io/</id>
   
   <author>
@@ -15,6 +15,488 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>dubbo的发展历程</title>
+    <link href="http://luoxn28.github.io/2020/07/03/dubbo-de-fa-zhan-li-cheng/"/>
+    <id>http://luoxn28.github.io/2020/07/03/dubbo-de-fa-zhan-li-cheng/</id>
+    <published>2020-07-03T04:58:21.000Z</published>
+    <updated>2020-07-03T15:24:33.353Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&lt;a href=&quot;http://dubbo.apache.org/zh-cn/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Apache Dubbo™&lt;/a&gt; 是一款高性能Java
+        
+      
+    
+    </summary>
+    
+      <category term="框架研究" scheme="http://luoxn28.github.io/categories/%E6%A1%86%E6%9E%B6%E7%A0%94%E7%A9%B6/"/>
+    
+    
+      <category term="dubbo" scheme="http://luoxn28.github.io/tags/dubbo/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>责任链的2种实现方式</title>
+    <link href="http://luoxn28.github.io/2020/06/20/ze-ren-lian-de-2-chong-shi-xian-fang-shi/"/>
+    <id>http://luoxn28.github.io/2020/06/20/ze-ren-lian-de-2-chong-shi-xian-fang-shi/</id>
+    <published>2020-06-20T13:57:16.000Z</published>
+    <updated>2020-07-03T03:05:07.696Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;责任链模式是日常开发或者框架中经常被使用的一种设计模式，典型的责任链有2种实现方式，不知道各位小伙伴更pick哪一种呢？下面就一起来比较下这2种实现方式吧~&lt;/p&gt;
+&lt;h2 id=&quot;责任链是什么&quot;&gt;&lt;a href=&quot;#责任链是什么&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="随笔" scheme="http://luoxn28.github.io/categories/%E9%9A%8F%E7%AC%94/"/>
+    
+    
+      <category term="设计模式" scheme="http://luoxn28.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Linux mmap</title>
+    <link href="http://luoxn28.github.io/2020/04/19/linux-mmap/"/>
+    <id>http://luoxn28.github.io/2020/04/19/linux-mmap/</id>
+    <published>2020-04-19T06:41:37.000Z</published>
+    <updated>2020-07-03T02:16:41.705Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;mmap系统调用的作用是在调用进程的虚拟地址空间中创建一个新的内存映射。根据内存背后有无实体文件与之关联，映射可以分成以下两种：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;文件映射：内存映射区域有实体文件与之关联。mmap系统调用将普通文件的一部分内容直接映射到调用进程的虚拟地址空间。一旦
+        
+      
+    
+    </summary>
+    
+      <category term="操作系统" scheme="http://luoxn28.github.io/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
+    
+    
+      <category term="Linux" scheme="http://luoxn28.github.io/tags/Linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Linux管道</title>
+    <link href="http://luoxn28.github.io/2020/04/19/linux-guan-dao/"/>
+    <id>http://luoxn28.github.io/2020/04/19/linux-guan-dao/</id>
+    <published>2020-04-19T06:16:15.000Z</published>
+    <updated>2020-07-03T02:16:41.733Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;管道是最早出现的进程间通信的手段，在shell中执行命令，经常会将上一个命令的输出作为下一个命令的输入，由多个命令配合完成一件事情。管道的作用是在有亲缘关系的进程之间传递消息，因为共同主先进程调用过pipe函数，打开的管道文件就会在fork之后，被各个后代进程所共享，打开的
+        
+      
+    
+    </summary>
+    
+      <category term="操作系统" scheme="http://luoxn28.github.io/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
+    
+    
+      <category term="Linux" scheme="http://luoxn28.github.io/tags/Linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>网络数据是如何传递给进程的</title>
+    <link href="http://luoxn28.github.io/2020/04/19/wang-luo-shu-ju-shi-ru-he-chuan-di-gei-jin-cheng-de/"/>
+    <id>http://luoxn28.github.io/2020/04/19/wang-luo-shu-ju-shi-ru-he-chuan-di-gei-jin-cheng-de/</id>
+    <published>2020-04-19T00:23:13.000Z</published>
+    <updated>2020-07-03T02:16:41.692Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;在分析网卡数据是如何传递给进程的流程之前，要知道数据是如何从进程写到网卡的，因为只有发起方写数据到网卡然后接收方才能接收到并处理。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;发送数据&quot;&gt;&lt;a href=&quot;#发送数据&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="操作系统" scheme="http://luoxn28.github.io/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
+    
+    
+      <category term="计算机网络" scheme="http://luoxn28.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>进程是如何调度的</title>
+    <link href="http://luoxn28.github.io/2020/04/18/jin-cheng-shi-ru-he-diao-du-de/"/>
+    <id>http://luoxn28.github.io/2020/04/18/jin-cheng-shi-ru-he-diao-du-de/</id>
+    <published>2020-04-18T14:21:17.000Z</published>
+    <updated>2020-07-03T01:45:11.542Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;操作系统运行过程中，CPU都忙于在不同进程（或线程）间执行指令，这就涉及到进程调度，进程调度是到底执行了哪些操作呢？&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;首先是将当前进程的上下文状态信息予以保护，以便将来能够重新恢复执行，然后将要执行的进程所
+        
+      
+    
+    </summary>
+    
+      <category term="操作系统" scheme="http://luoxn28.github.io/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>从sockert api看网络通信流程</title>
+    <link href="http://luoxn28.github.io/2020/04/18/cong-socket-api-kan-wang-luo-tong-xin-liu-cheng/"/>
+    <id>http://luoxn28.github.io/2020/04/18/cong-socket-api-kan-wang-luo-tong-xin-liu-cheng/</id>
+    <published>2020-04-18T12:19:54.000Z</published>
+    <updated>2020-07-03T02:16:41.710Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;说了网络通信，大家肯定都不会陌生，比如各种分布式系统、大数据框架等等都要涉及到网络通信，由于大多数通信都是基于TCP协议来的，因此本文就以TCP为例，结合socket
+        
+      
+    
+    </summary>
+    
+      <category term="操作系统" scheme="http://luoxn28.github.io/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
+    
+    
+      <category term="Linux" scheme="http://luoxn28.github.io/tags/Linux/"/>
+    
+      <category term="计算机网络" scheme="http://luoxn28.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>谈一谈TCP的4次挥手</title>
+    <link href="http://luoxn28.github.io/2020/04/18/tan-yi-tan-tcp-de-4-ci-hui-shou/"/>
+    <id>http://luoxn28.github.io/2020/04/18/tan-yi-tan-tcp-de-4-ci-hui-shou/</id>
+    <published>2020-04-18T01:19:14.000Z</published>
+    <updated>2020-07-03T02:09:28.086Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;TCP是全双工传输协议，也就是说双方都可进行读写操作，当一方不需要写数据时，会通过发送FIN报文告知对方，我要关闭连接了，对方接受到并返回ACK报文，这就表示一方的连接已经关闭，此时另一方的连接还是OK的，也就是说另一方还是可以继续写数据的，等到另一方也发完数据之后就可以发
+        
+      
+    
+    </summary>
+    
+      <category term="操作系统" scheme="http://luoxn28.github.io/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
+    
+    
+      <category term="计算机网络" scheme="http://luoxn28.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>深入理解TCP的3次握手</title>
+    <link href="http://luoxn28.github.io/2020/04/17/shen-ru-li-jie-tcp-de-3-ci-wo-shou/"/>
+    <id>http://luoxn28.github.io/2020/04/17/shen-ru-li-jie-tcp-de-3-ci-wo-shou/</id>
+    <published>2020-04-17T14:27:53.000Z</published>
+    <updated>2020-07-03T02:09:28.093Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;说起TCP的三次握手，大多数小伙伴多少都听说过一些，因此本文不再赘述三次握手的详细流程，而是重点关注三次握手中半连接队列和全连接队列流程，以及二者队列满了时的处理机制，最后分析下常见的三次握手的问题，这些问题大都也是和半连接队列和全连接队列相关的。
+        
+      
+    
+    </summary>
+    
+      <category term="操作系统" scheme="http://luoxn28.github.io/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
+    
+    
+      <category term="计算机网络" scheme="http://luoxn28.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Linux信号</title>
+    <link href="http://luoxn28.github.io/2020/04/12/linux-xin-hao/"/>
+    <id>http://luoxn28.github.io/2020/04/12/linux-xin-hao/</id>
+    <published>2020-04-12T12:11:26.000Z</published>
+    <updated>2020-07-03T02:16:41.728Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;信号是一种异步处理的软中断，内核会发送给进程某些异步事件，这些异步事件可能来自硬件，比如除0或者访问了非法地址；也可能来自其他进程或用户输入，比如ctrl+c。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;信号是一种进程间通信机制，信号都有一个对应的
+        
+      
+    
+    </summary>
+    
+      <category term="操作系统" scheme="http://luoxn28.github.io/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
+    
+    
+      <category term="Linux" scheme="http://luoxn28.github.io/tags/Linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Linux inode那些事儿</title>
+    <link href="http://luoxn28.github.io/2020/04/11/linux-inode-na-xie-shi-er/"/>
+    <id>http://luoxn28.github.io/2020/04/11/linux-inode-na-xie-shi-er/</id>
+    <published>2020-04-11T11:40:04.000Z</published>
+    <updated>2020-07-03T02:09:28.096Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;在理解inode之前，先了解下磁盘扇区，磁盘的最小单位，我们都知道，磁盘一个扇区是512个字节。磁盘读写是都是按照块来操作的，一个块一般是4K，也就是连续的8个扇区，以块为单位读写是为了提高性能。&lt;/p&gt;
+&lt;p&gt;文件数据都储存在”块”中，那么很显然，我们还必须找到一个地方储
+        
+      
+    
+    </summary>
+    
+      <category term="操作系统" scheme="http://luoxn28.github.io/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
+    
+    
+      <category term="Linux" scheme="http://luoxn28.github.io/tags/Linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>页面更换算法</title>
+    <link href="http://luoxn28.github.io/2020/04/11/ye-mian-geng-huan-suan-fa/"/>
+    <id>http://luoxn28.github.io/2020/04/11/ye-mian-geng-huan-suan-fa/</id>
+    <published>2020-04-11T09:12:27.000Z</published>
+    <updated>2020-04-17T00:47:54.305Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;操作系统为什么需要页面更换呢，因为物理内存不够，不可能同时加载所需的所有数据页，因此只能加载正在或最近要使用的内存页。页面更换的目标是，尽量替换掉不再使用或者一段时间内不再使用的内存页，要不然会很容易触发缺页中断，该操作代价较大，涉及到从磁盘加载，
+        
+      
+    
+    </summary>
+    
+      <category term="操作系统" scheme="http://luoxn28.github.io/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>磁盘IO</title>
+    <link href="http://luoxn28.github.io/2020/04/08/ci-pan-io/"/>
+    <id>http://luoxn28.github.io/2020/04/08/ci-pan-io/</id>
+    <published>2020-04-08T15:18:14.000Z</published>
+    <updated>2020-04-16T23:43:56.769Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;基本概念：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;IOPS：每秒输入输出量（读写次数）。&lt;/li&gt;
+&lt;li&gt;吞吐量：单位时间内成功传输的数据量。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;VFS（虚拟文件系统层）&quot;&gt;&lt;a href=&quot;#VFS（虚拟文件系统层）&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="操作系统" scheme="http://luoxn28.github.io/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>操作系统基本概念</title>
+    <link href="http://luoxn28.github.io/2020/04/08/cao-zuo-xi-tong-ji-ben-gai-nian/"/>
+    <id>http://luoxn28.github.io/2020/04/08/cao-zuo-xi-tong-ji-ben-gai-nian/</id>
+    <published>2020-04-08T14:54:36.000Z</published>
+    <updated>2020-04-08T15:18:14.496Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h3 id=&quot;内核态与用户态&quot;&gt;&lt;a href=&quot;#内核态与用户态&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="操作系统" scheme="http://luoxn28.github.io/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>磁盘操作</title>
+    <link href="http://luoxn28.github.io/2020/04/08/ci-pan-cao-zuo/"/>
+    <id>http://luoxn28.github.io/2020/04/08/ci-pan-cao-zuo/</id>
+    <published>2020-04-08T14:48:36.000Z</published>
+    <updated>2020-04-10T22:41:30.984Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;磁盘作为计算机的底层存储，重要性不言而喻，操作系统的启动程序就是存在在磁盘的开始位置上的。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;磁盘是由多个盘片组成的，每个盘边两面都是可以存储数据。每个盘边对应一个读写磁头，所有读写磁头都是在同一个磁臂上，盘
+        
+      
+    
+    </summary>
+    
+      <category term="操作系统" scheme="http://luoxn28.github.io/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>大数据存储的秘密之分区</title>
+    <link href="http://luoxn28.github.io/2020/04/06/da-shu-ju-cun-chu-de-mi-mi-zhi-fen-qu/"/>
+    <id>http://luoxn28.github.io/2020/04/06/da-shu-ju-cun-chu-de-mi-mi-zhi-fen-qu/</id>
+    <published>2020-04-06T10:16:14.000Z</published>
+    <updated>2020-07-03T02:47:08.447Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;分区，又称为分片，是解决大数据存储的常见解决方案，大数据存储量超过了单节点的存储上限，因此需要进行分区操作将数据分散存储在不同节点上，通常每个单个分区可以理解成一个小型的数据库，尽管数据库能同时支持多个分区操作；分区引入多分区概念，可以同时对外服务
+        
+      
+    
+    </summary>
+    
+      <category term="分布式" scheme="http://luoxn28.github.io/categories/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>数据序列化那些事</title>
+    <link href="http://luoxn28.github.io/2020/04/06/shu-ju-xu-lie-hua-na-xie-shi/"/>
+    <id>http://luoxn28.github.io/2020/04/06/shu-ju-xu-lie-hua-na-xie-shi/</id>
+    <published>2020-04-06T10:16:14.000Z</published>
+    <updated>2020-07-03T02:47:08.446Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;关于数据序列化，首先要了解为什么需要序列化以及数据序列化的意义是什么，然后再了解下当前较为广泛的几种序列化方式。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;为什么需要数据序列化呢&lt;/strong&gt;？因为数据要“传输”，比如将数据网络
+        
+      
+    
+    </summary>
+    
+      <category term="分布式" scheme="http://luoxn28.github.io/categories/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>高可用的本质-复制</title>
+    <link href="http://luoxn28.github.io/2020/04/06/gao-ke-yong-de-ben-zhi-fu-zhi/"/>
+    <id>http://luoxn28.github.io/2020/04/06/gao-ke-yong-de-ben-zhi-fu-zhi/</id>
+    <published>2020-04-06T10:16:14.000Z</published>
+    <updated>2020-07-03T02:47:08.461Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;服务和数据的高可用性本质上是靠“复制”来解决的，比如服务通过集群部署多台机器来完成，数据通过冗余的多副本机制来完成。对于服务来说，只需要部署多个实例即可，特别是无状态服务，常见的微服务(dubbo/spring
+        
+      
+    
+    </summary>
+    
+      <category term="分布式" scheme="http://luoxn28.github.io/categories/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>页式内存管理</title>
@@ -45,7 +527,7 @@
     <link href="http://luoxn28.github.io/2020/03/17/group-by-zhong-zi-cha-xun-order-by-pai-xu-shi-xiao-wen-ti-fen-xi/"/>
     <id>http://luoxn28.github.io/2020/03/17/group-by-zhong-zi-cha-xun-order-by-pai-xu-shi-xiao-wen-ti-fen-xi/</id>
     <published>2020-03-17T09:24:25.000Z</published>
-    <updated>2020-04-06T09:52:04.790Z</updated>
+    <updated>2020-07-03T02:44:24.743Z</updated>
     
     <summary type="html">
     
@@ -60,472 +542,10 @@
     
     </summary>
     
-      <category term="MySQL" scheme="http://luoxn28.github.io/categories/MySQL/"/>
+      <category term="数据库" scheme="http://luoxn28.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
     
     
-  </entry>
-  
-  <entry>
-    <title>Transmittable-Thread-Local：线程间上下文传递解决方案</title>
-    <link href="http://luoxn28.github.io/2020/03/16/transmittable-thread-local-xian-cheng-jian-shang-xia-wen-chuan-di-jie-jue-fang-an/"/>
-    <id>http://luoxn28.github.io/2020/03/16/transmittable-thread-local-xian-cheng-jian-shang-xia-wen-chuan-di-jie-jue-fang-an/</id>
-    <published>2020-03-16T08:45:38.000Z</published>
-    <updated>2020-04-06T09:01:08.838Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;blockquote&gt;
-&lt;p&gt;TTL（transmittable-thread-local）是一个线程间传递ThreadLocal，异步执行时上下文传递的解决方案。整个库的核心是构建在TransmittableThreadLocal类（继承并加强InheritableThrea
-        
-      
-    
-    </summary>
-    
-      <category term="随笔" scheme="http://luoxn28.github.io/categories/%E9%9A%8F%E7%AC%94/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>线程池如何传递线程上下文信息</title>
-    <link href="http://luoxn28.github.io/2020/03/13/xian-cheng-chi-ru-he-chuan-di-xian-cheng-shang-xia-wen-xin-xi/"/>
-    <id>http://luoxn28.github.io/2020/03/13/xian-cheng-chi-ru-he-chuan-di-xian-cheng-shang-xia-wen-xin-xi/</id>
-    <published>2020-03-13T09:22:54.000Z</published>
-    <updated>2020-04-06T09:24:25.752Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;blockquote&gt;
-&lt;p&gt;业务开发中，一般都会使用ThreadLocal保存一些上下文信息，但是在线程池中执行对应逻辑时，由于是不同线程所以无法获取之前线程的上下文信息。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;线程池的线程上下文传递，实现方案就是在提交任务时记录当前线程
-        
-      
-    
-    </summary>
-    
-      <category term="随笔" scheme="http://luoxn28.github.io/categories/%E9%9A%8F%E7%AC%94/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>ToString如何反序列化</title>
-    <link href="http://luoxn28.github.io/2020/03/08/tostring-ru-he-fan-xu-lie-hua/"/>
-    <id>http://luoxn28.github.io/2020/03/08/tostring-ru-he-fan-xu-lie-hua/</id>
-    <published>2020-03-08T09:24:25.000Z</published>
-    <updated>2020-04-06T09:25:01.524Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;不知道小伙伴们有没有这样的困扰，平常开发中写单测，要mock一个复杂的对象，并且也知道了该对象的toString格式数据（比如从日志中获取），但是该怎么构建这个对象呢？&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;如果是json格式可以直接通过json反序列化得到对象，那么to
-        
-      
-    
-    </summary>
-    
-      <category term="Java" scheme="http://luoxn28.github.io/categories/Java/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Java并发工具类</title>
-    <link href="http://luoxn28.github.io/2020/02/29/java-bing-fa-gong-ju-lei/"/>
-    <id>http://luoxn28.github.io/2020/02/29/java-bing-fa-gong-ju-lei/</id>
-    <published>2020-02-29T09:30:28.000Z</published>
-    <updated>2020-04-06T09:31:22.396Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;Java并发工具类主要有CyclicBarrier、CountDownLatch、Semaphore和Exchanger，日常开发中经常使用的是CountDownLatch和Semaphore。下面就简单分析下这几个并发工具类：&lt;/p&gt;
-&lt;h3
-        
-      
-    
-    </summary>
-    
-      <category term="Java" scheme="http://luoxn28.github.io/categories/Java/"/>
-    
-    
-      <category term="多线程" scheme="http://luoxn28.github.io/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>一起聊聊3个线程依次打印1、2、3的故事</title>
-    <link href="http://luoxn28.github.io/2020/02/19/yi-qi-liao-liao-3-ge-xian-cheng-yi-ci-da-yin-1-2-3-de-gu-shi/"/>
-    <id>http://luoxn28.github.io/2020/02/19/yi-qi-liao-liao-3-ge-xian-cheng-yi-ci-da-yin-1-2-3-de-gu-shi/</id>
-    <published>2020-02-19T09:22:54.000Z</published>
-    <updated>2020-04-06T09:24:25.751Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;3个线程依次打印1、2、3…这个问题，常常被作为面试题，题目如下：&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;三个线程，一个线程负责打印1，4，7，……；第二个负责打印2，5，8，……，第三个负责打印3，6，9，……，要求在控制台中按顺序输出1，2，3，4，5，6……。&lt;/p
-        
-      
-    
-    </summary>
-    
-      <category term="随笔" scheme="http://luoxn28.github.io/categories/%E9%9A%8F%E7%AC%94/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>kubernetes之Pod那些事</title>
-    <link href="http://luoxn28.github.io/2020/02/08/kubernetes-zhi-pod-na-xie-shi/"/>
-    <id>http://luoxn28.github.io/2020/02/08/kubernetes-zhi-pod-na-xie-shi/</id>
-    <published>2020-02-08T09:49:43.000Z</published>
-    <updated>2020-04-06T10:08:47.211Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;Pod是kubernetes中最小的资源管理组件，Pod也是最小化运行容器化应用的资源对象。kubernetes中其他大多数组件都是围绕着Pod来进行支撑和扩展Pod功能的，例如，用于管理Pod运行的StatefulSet和Deployment等控制器对象，用于暴露Pod应
-        
-      
-    
-    </summary>
-    
-    
-      <category term="kubernetes" scheme="http://luoxn28.github.io/tags/kubernetes/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>influxdb入门</title>
-    <link href="http://luoxn28.github.io/2020/01/28/influxdb-ru-men/"/>
-    <id>http://luoxn28.github.io/2020/01/28/influxdb-ru-men/</id>
-    <published>2020-01-28T09:35:08.000Z</published>
-    <updated>2020-04-06T09:37:42.688Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;blockquote&gt;
-&lt;p&gt;InfluxDB是一个开源的时序数据库，使用GO语言开发，特别适合用于处理和分析资源监控数据这种时序相关数据。而InfluxDB自带的各种特殊函数如求标准差，随机取样数据，统计数据变化比等，使数据统计和实时分析变得十分方便。&lt;/p&gt;
-&lt;/block
-        
-      
-    
-    </summary>
-    
-    
-      <category term="influxdb" scheme="http://luoxn28.github.io/tags/influxdb/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>influxdb原理那些事</title>
-    <link href="http://luoxn28.github.io/2020/01/28/influxdb-yuan-li-na-xie-shi/"/>
-    <id>http://luoxn28.github.io/2020/01/28/influxdb-yuan-li-na-xie-shi/</id>
-    <published>2020-01-28T09:35:08.000Z</published>
-    <updated>2020-04-06T09:37:42.687Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;InfluxDB是一个开源的时序数据库，使用GO语言开发，特别适合用于处理和分析资源监控数据这种时序相关数据。而InfluxDB自带的各种特殊函数如求标准差，随机取样数据，统计数据变化比等，使数据统计和实时分析变得十分方便。&lt;/p&gt;
-&lt;p&gt;在目前的APM和后续的IoT场景中
-        
-      
-    
-    </summary>
-    
-    
-      <category term="influxdb" scheme="http://luoxn28.github.io/tags/influxdb/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>influxdb的命令们</title>
-    <link href="http://luoxn28.github.io/2020/01/28/influxdb-de-ming-ling-men/"/>
-    <id>http://luoxn28.github.io/2020/01/28/influxdb-de-ming-ling-men/</id>
-    <published>2020-01-28T09:35:08.000Z</published>
-    <updated>2020-04-06T09:37:42.689Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;blockquote&gt;
-&lt;p&gt;InfluxDB是一个开源的时序数据库，使用GO语言开发，特别适合用于处理和分析资源监控数据这种时序相关数据。而InfluxDB自带的各种特殊函数如求标准差，随机取样数据，统计数据变化比等，使数据统计和实时分析变得十分方便。&lt;/p&gt;
-&lt;/block
-        
-      
-    
-    </summary>
-    
-    
-      <category term="influxdb" scheme="http://luoxn28.github.io/tags/influxdb/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>kubernetes基础概念</title>
-    <link href="http://luoxn28.github.io/2020/01/21/kubernetes-ji-chu-gai-nian/"/>
-    <id>http://luoxn28.github.io/2020/01/21/kubernetes-ji-chu-gai-nian/</id>
-    <published>2020-01-21T09:49:43.000Z</published>
-    <updated>2020-04-06T10:08:47.212Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;kubernetes（简称k8s）是一种用于在一组主机上运行和协同容器化应用程序的管理平台，皆在提供高可用、高扩展性和可预测性的方式来管理容器应用的生命周期。通过k8s，用户可以定义程序运行方式、部署升级策略、动态伸缩容，使得用户以一种更灵活可靠的方式来管理应用程序。&lt;/p
-        
-      
-    
-    </summary>
-    
-    
-      <category term="kubernetes" scheme="http://luoxn28.github.io/tags/kubernetes/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Docker网络通信</title>
-    <link href="http://luoxn28.github.io/2020/01/21/docker-wang-luo-tong-xin/"/>
-    <id>http://luoxn28.github.io/2020/01/21/docker-wang-luo-tong-xin/</id>
-    <published>2020-01-21T09:43:43.000Z</published>
-    <updated>2020-04-06T10:08:29.721Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;blockquote&gt;
-&lt;p&gt;Docker是基于go语言开发，Linux下的底层技术主要基于cgroups、namespace以及联合文件技术实现的一种进程级别的轻量级虚拟化解决方案。由于Docker进程隔离独立于宿主机上其他进程，因此也称为容器，Docker在容器的基础上，进
-        
-      
-    
-    </summary>
-    
-    
-      <category term="docker" scheme="http://luoxn28.github.io/tags/docker/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>namespace原理解析</title>
-    <link href="http://luoxn28.github.io/2020/01/12/namespace-yuan-li-jie-xi/"/>
-    <id>http://luoxn28.github.io/2020/01/12/namespace-yuan-li-jie-xi/</id>
-    <published>2020-01-12T09:46:06.000Z</published>
-    <updated>2020-04-06T10:08:29.726Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;blockquote&gt;
-&lt;p&gt;
-        
-      
-    
-    </summary>
-    
-    
-      <category term="docker" scheme="http://luoxn28.github.io/tags/docker/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>代码到底需不需要注释</title>
-    <link href="http://luoxn28.github.io/2020/01/06/dai-ma-dao-di-xu-bu-xu-yao-zhu-shi/"/>
-    <id>http://luoxn28.github.io/2020/01/06/dai-ma-dao-di-xu-bu-xu-yao-zhu-shi/</id>
-    <published>2020-01-06T04:38:12.000Z</published>
-    <updated>2020-04-06T09:01:08.834Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;好的代码需不需要注释，这个问题其实不能直接说需要或者不需要，因为要视情况而定。&lt;strong&gt;如果一段代码功能较为简单且独立，同时代码风格较好，是不需要注释的，因为代码本身已经足够说明其用意了（代码即注释）；如果功能较复杂或者较为抽象，是需要合理注释的，方便他人阅读和快速理
-        
-      
-    
-    </summary>
-    
-      <category term="随笔" scheme="http://luoxn28.github.io/categories/%E9%9A%8F%E7%AC%94/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>cgroup原理解析</title>
-    <link href="http://luoxn28.github.io/2020/01/04/cgroup-yuan-li-jie-xi/"/>
-    <id>http://luoxn28.github.io/2020/01/04/cgroup-yuan-li-jie-xi/</id>
-    <published>2020-01-04T09:43:43.000Z</published>
-    <updated>2020-04-06T10:08:29.724Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;blockquote&gt;
-&lt;p&gt;cgroup从2.6.4引入linux内核主线，目前默认已启用该特性。在cgroup出现之前，只能对一个进程做资源限制，比如通过sched_setaffinity设置进程cpu亲和性，使用ulimit限制进程打开文件上限、栈大小等。&lt;/p&gt;
-&lt;/b
-        
-      
-    
-    </summary>
-    
-    
-      <category term="docker" scheme="http://luoxn28.github.io/tags/docker/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Docker命令</title>
-    <link href="http://luoxn28.github.io/2019/12/29/docker-ming-ling/"/>
-    <id>http://luoxn28.github.io/2019/12/29/docker-ming-ling/</id>
-    <published>2019-12-29T09:46:06.000Z</published>
-    <updated>2020-04-06T10:08:29.729Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;blockquote&gt;
-&lt;p&gt;学习Docker，首先需要了解Docker基本概念，然后就开始“动手”了（也就是敲Docker命令）。Docker命令较多，这里笔者总结下常用的Docker命令，方便小伙伴们查阅。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;Docker是基于go语
-        
-      
-    
-    </summary>
-    
-    
-      <category term="docker" scheme="http://luoxn28.github.io/tags/docker/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>如何优雅地执行dubbo&quot;单测&quot;</title>
-    <link href="http://luoxn28.github.io/2019/12/21/ru-he-you-ya-di-zhi-xing-dubbo-dan-ce/"/>
-    <id>http://luoxn28.github.io/2019/12/21/ru-he-you-ya-di-zhi-xing-dubbo-dan-ce/</id>
-    <published>2019-12-21T09:21:22.000Z</published>
-    <updated>2020-04-06T09:27:34.484Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;很多小伙伴所在的公司是基于Dubbo来构建技术栈的，日常开发中必不可少要写dubbo单测（单元测试），如果单测数据依赖已有的外部dubbo服务，一般是mock数据，如果数据比较复杂，其实mock数据也是一个不小的工作量。那有没有更好的单测方式来代替我们完成”mock“数据功
-        
-      
-    
-    </summary>
-    
-      <category term="框架研究" scheme="http://luoxn28.github.io/categories/%E6%A1%86%E6%9E%B6%E7%A0%94%E7%A9%B6/"/>
-    
-    
-      <category term="dubbo" scheme="http://luoxn28.github.io/tags/dubbo/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Netty ByteBuf机制</title>
-    <link href="http://luoxn28.github.io/2019/11/30/netty-bytebuf-ji-zhi/"/>
-    <id>http://luoxn28.github.io/2019/11/30/netty-bytebuf-ji-zhi/</id>
-    <published>2019-11-30T09:56:05.000Z</published>
-    <updated>2020-04-06T10:07:21.763Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;blockquote&gt;
-&lt;p&gt;缓冲区在计算机世界中随处可见，内存中的多级缓冲区，io设备的缓冲区等等，还有我们经常用的内存队列，分布式队列等等。缓冲区，平衡了数据产生方和数据消费方的处理效率差异，提高了数据处理性能。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;JDK为了解决网络
-        
-      
-    
-    </summary>
-    
-      <category term="框架研究" scheme="http://luoxn28.github.io/categories/%E6%A1%86%E6%9E%B6%E7%A0%94%E7%A9%B6/"/>
-    
-    
-      <category term="netty" scheme="http://luoxn28.github.io/tags/netty/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Netty 总结篇</title>
-    <link href="http://luoxn28.github.io/2019/11/30/netty-zong-jie-pian/"/>
-    <id>http://luoxn28.github.io/2019/11/30/netty-zong-jie-pian/</id>
-    <published>2019-11-30T09:56:05.000Z</published>
-    <updated>2020-04-06T10:07:21.767Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;Netty一个主要的目标就是促进“关注点分离”：&lt;strong&gt;使业务逻辑从网络基础设施应用程序中分离&lt;/strong&gt;。不仅仅是Netty框架，其他框架的设计目的也大都是为了使业务程序和底层技术解耦，使程序员更加专注于业务逻辑实现，提高开发质量和效率。Netty为什么性能
-        
-      
-    
-    </summary>
-    
-      <category term="框架研究" scheme="http://luoxn28.github.io/categories/%E6%A1%86%E6%9E%B6%E7%A0%94%E7%A9%B6/"/>
-    
-    
-      <category term="netty" scheme="http://luoxn28.github.io/tags/netty/"/>
+      <category term="mysql" scheme="http://luoxn28.github.io/tags/mysql/"/>
     
   </entry>
   
