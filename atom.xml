@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://luoxn28.github.io/"/>
-  <updated>2020-07-03T15:24:33.353Z</updated>
+  <updated>2020-07-12T11:23:22.943Z</updated>
   <id>http://luoxn28.github.io/</id>
   
   <author>
@@ -15,6 +15,166 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Dubbo provider Filter链是如何构建的</title>
+    <link href="http://luoxn28.github.io/2020/07/12/dubbo-provider-filter-lian-shi-ru-he-gou-jian-de/"/>
+    <id>http://luoxn28.github.io/2020/07/12/dubbo-provider-filter-lian-shi-ru-he-gou-jian-de/</id>
+    <published>2020-07-12T11:23:04.000Z</published>
+    <updated>2020-07-12T11:23:22.943Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;provider端的Filter链构建是在初始化流程中构建的，我们知道初始化流程肯定会走到方法&lt;code&gt;org.apache.dubbo.remoting.transport.netty4.NettyServer#doOpen&lt;/code&gt;中，可以在该方法打个断点，然后启
+        
+      
+    
+    </summary>
+    
+      <category term="框架研究" scheme="http://luoxn28.github.io/categories/%E6%A1%86%E6%9E%B6%E7%A0%94%E7%A9%B6/"/>
+    
+    
+      <category term="dubbo" scheme="http://luoxn28.github.io/tags/dubbo/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Dubbo RPC在provider端是如何跑起来的</title>
+    <link href="http://luoxn28.github.io/2020/07/12/dubbo-rpc-zai-provider-duan-shi-ru-he-pao-qi-lai-de/"/>
+    <id>http://luoxn28.github.io/2020/07/12/dubbo-rpc-zai-provider-duan-shi-ru-he-pao-qi-lai-de/</id>
+    <published>2020-07-12T11:12:07.000Z</published>
+    <updated>2020-07-12T11:23:04.927Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;dubbo RCP请求到达provider后，首先经过数据接收、解码（NettyWokerThread/NioEventLoop），然后传递到RPC后续流程（DubboServerHandler），即filter、service invoke过程，service
+        
+      
+    
+    </summary>
+    
+      <category term="框架研究" scheme="http://luoxn28.github.io/categories/%E6%A1%86%E6%9E%B6%E7%A0%94%E7%A9%B6/"/>
+    
+    
+      <category term="dubbo" scheme="http://luoxn28.github.io/tags/dubbo/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>dubbo provider是如何启动的</title>
+    <link href="http://luoxn28.github.io/2020/07/11/dubbo-provider-shi-ru-he-qi-dong-de/"/>
+    <id>http://luoxn28.github.io/2020/07/11/dubbo-provider-shi-ru-he-qi-dong-de/</id>
+    <published>2020-07-11T13:00:19.000Z</published>
+    <updated>2020-07-11T13:15:50.859Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;Netty支持多种服务端的server实例，包括mina、netty等，如下所示：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/2020/07/11/dubbo-provider-shi-ru-he-qi-dong-de/./dubbo
+        
+      
+    
+    </summary>
+    
+      <category term="框架研究" scheme="http://luoxn28.github.io/categories/%E6%A1%86%E6%9E%B6%E7%A0%94%E7%A9%B6/"/>
+    
+    
+      <category term="dubbo" scheme="http://luoxn28.github.io/tags/dubbo/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Dubbo连通性讨论</title>
+    <link href="http://luoxn28.github.io/2020/07/08/dubbo-lian-tong-xing-tao-lun/"/>
+    <id>http://luoxn28.github.io/2020/07/08/dubbo-lian-tong-xing-tao-lun/</id>
+    <published>2020-07-08T14:30:44.000Z</published>
+    <updated>2020-07-08T14:48:00.846Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;关于dubbo连通性，也就是dubbo各组件之间通信、privider和consumer连接、以及通信方式这些功能点。话不多说，让我们一起揭开dubob连通性的面纱吧。&lt;/p&gt;
+&lt;h2 id=&quot;dubbo架构&quot;&gt;&lt;a href=&quot;#dubbo架构&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="框架研究" scheme="http://luoxn28.github.io/categories/%E6%A1%86%E6%9E%B6%E7%A0%94%E7%A9%B6/"/>
+    
+    
+      <category term="dubbo" scheme="http://luoxn28.github.io/tags/dubbo/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Dubbo线程模型</title>
+    <link href="http://luoxn28.github.io/2020/07/05/dubbo-xian-cheng-mo-xing/"/>
+    <id>http://luoxn28.github.io/2020/07/05/dubbo-xian-cheng-mo-xing/</id>
+    <published>2020-07-05T14:45:30.000Z</published>
+    <updated>2020-07-05T15:06:46.336Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;Dubbo中线程池的应用还是比较广泛的，按照consumer端到provider的RPC的方向来看，consumer端的应用业务线程到netty线程、consuemr端dubbo业务线程池，到provider端的netty
+        
+      
+    
+    </summary>
+    
+      <category term="框架研究" scheme="http://luoxn28.github.io/categories/%E6%A1%86%E6%9E%B6%E7%A0%94%E7%A9%B6/"/>
+    
+    
+      <category term="dubbo" scheme="http://luoxn28.github.io/tags/dubbo/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Dubbo RPC在consumer端是如何跑起来的</title>
+    <link href="http://luoxn28.github.io/2020/07/04/dubbo-rpc-zai-consumer-duan-shi-ru-he-pao-qi-lai-de/"/>
+    <id>http://luoxn28.github.io/2020/07/04/dubbo-rpc-zai-consumer-duan-shi-ru-he-pao-qi-lai-de/</id>
+    <published>2020-07-04T15:00:02.000Z</published>
+    <updated>2020-07-04T15:11:04.472Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;Dubbo作为一款高性能Java RPC框架，RPC是其最重要的流程之一。Dubbo
+        
+      
+    
+    </summary>
+    
+      <category term="框架研究" scheme="http://luoxn28.github.io/categories/%E6%A1%86%E6%9E%B6%E7%A0%94%E7%A9%B6/"/>
+    
+    
+      <category term="dubbo" scheme="http://luoxn28.github.io/tags/dubbo/"/>
+    
+  </entry>
   
   <entry>
     <title>dubbo的发展历程</title>
@@ -74,7 +234,7 @@
     <link href="http://luoxn28.github.io/2020/04/19/linux-mmap/"/>
     <id>http://luoxn28.github.io/2020/04/19/linux-mmap/</id>
     <published>2020-04-19T06:41:37.000Z</published>
-    <updated>2020-07-03T02:16:41.705Z</updated>
+    <updated>2020-07-03T02:47:08.264Z</updated>
     
     <summary type="html">
     
@@ -102,7 +262,7 @@
     <link href="http://luoxn28.github.io/2020/04/19/linux-guan-dao/"/>
     <id>http://luoxn28.github.io/2020/04/19/linux-guan-dao/</id>
     <published>2020-04-19T06:16:15.000Z</published>
-    <updated>2020-07-03T02:16:41.733Z</updated>
+    <updated>2020-07-03T02:47:08.288Z</updated>
     
     <summary type="html">
     
@@ -128,7 +288,7 @@
     <link href="http://luoxn28.github.io/2020/04/19/wang-luo-shu-ju-shi-ru-he-chuan-di-gei-jin-cheng-de/"/>
     <id>http://luoxn28.github.io/2020/04/19/wang-luo-shu-ju-shi-ru-he-chuan-di-gei-jin-cheng-de/</id>
     <published>2020-04-19T00:23:13.000Z</published>
-    <updated>2020-07-03T02:16:41.692Z</updated>
+    <updated>2020-07-03T02:47:08.250Z</updated>
     
     <summary type="html">
     
@@ -157,7 +317,7 @@
     <link href="http://luoxn28.github.io/2020/04/18/jin-cheng-shi-ru-he-diao-du-de/"/>
     <id>http://luoxn28.github.io/2020/04/18/jin-cheng-shi-ru-he-diao-du-de/</id>
     <published>2020-04-18T14:21:17.000Z</published>
-    <updated>2020-07-03T01:45:11.542Z</updated>
+    <updated>2020-07-03T02:47:08.243Z</updated>
     
     <summary type="html">
     
@@ -184,7 +344,7 @@
     <link href="http://luoxn28.github.io/2020/04/18/cong-socket-api-kan-wang-luo-tong-xin-liu-cheng/"/>
     <id>http://luoxn28.github.io/2020/04/18/cong-socket-api-kan-wang-luo-tong-xin-liu-cheng/</id>
     <published>2020-04-18T12:19:54.000Z</published>
-    <updated>2020-07-03T02:16:41.710Z</updated>
+    <updated>2020-07-03T02:47:08.272Z</updated>
     
     <summary type="html">
     
@@ -213,7 +373,7 @@
     <link href="http://luoxn28.github.io/2020/04/18/tan-yi-tan-tcp-de-4-ci-hui-shou/"/>
     <id>http://luoxn28.github.io/2020/04/18/tan-yi-tan-tcp-de-4-ci-hui-shou/</id>
     <published>2020-04-18T01:19:14.000Z</published>
-    <updated>2020-07-03T02:09:28.086Z</updated>
+    <updated>2020-07-03T02:47:08.251Z</updated>
     
     <summary type="html">
     
@@ -239,7 +399,7 @@
     <link href="http://luoxn28.github.io/2020/04/17/shen-ru-li-jie-tcp-de-3-ci-wo-shou/"/>
     <id>http://luoxn28.github.io/2020/04/17/shen-ru-li-jie-tcp-de-3-ci-wo-shou/</id>
     <published>2020-04-17T14:27:53.000Z</published>
-    <updated>2020-07-03T02:09:28.093Z</updated>
+    <updated>2020-07-03T02:47:08.277Z</updated>
     
     <summary type="html">
     
@@ -266,7 +426,7 @@
     <link href="http://luoxn28.github.io/2020/04/12/linux-xin-hao/"/>
     <id>http://luoxn28.github.io/2020/04/12/linux-xin-hao/</id>
     <published>2020-04-12T12:11:26.000Z</published>
-    <updated>2020-07-03T02:16:41.728Z</updated>
+    <updated>2020-07-03T02:47:08.287Z</updated>
     
     <summary type="html">
     
@@ -295,7 +455,7 @@
     <link href="http://luoxn28.github.io/2020/04/11/linux-inode-na-xie-shi-er/"/>
     <id>http://luoxn28.github.io/2020/04/11/linux-inode-na-xie-shi-er/</id>
     <published>2020-04-11T11:40:04.000Z</published>
-    <updated>2020-07-03T02:09:28.096Z</updated>
+    <updated>2020-07-03T02:47:08.288Z</updated>
     
     <summary type="html">
     
@@ -322,7 +482,7 @@
     <link href="http://luoxn28.github.io/2020/04/11/ye-mian-geng-huan-suan-fa/"/>
     <id>http://luoxn28.github.io/2020/04/11/ye-mian-geng-huan-suan-fa/</id>
     <published>2020-04-11T09:12:27.000Z</published>
-    <updated>2020-04-17T00:47:54.305Z</updated>
+    <updated>2020-07-03T02:47:08.225Z</updated>
     
     <summary type="html">
     
@@ -347,7 +507,7 @@
     <link href="http://luoxn28.github.io/2020/04/08/ci-pan-io/"/>
     <id>http://luoxn28.github.io/2020/04/08/ci-pan-io/</id>
     <published>2020-04-08T15:18:14.000Z</published>
-    <updated>2020-04-16T23:43:56.769Z</updated>
+    <updated>2020-07-03T02:47:08.221Z</updated>
     
     <summary type="html">
     
@@ -376,7 +536,7 @@
     <link href="http://luoxn28.github.io/2020/04/08/cao-zuo-xi-tong-ji-ben-gai-nian/"/>
     <id>http://luoxn28.github.io/2020/04/08/cao-zuo-xi-tong-ji-ben-gai-nian/</id>
     <published>2020-04-08T14:54:36.000Z</published>
-    <updated>2020-04-08T15:18:14.496Z</updated>
+    <updated>2020-07-03T02:47:08.240Z</updated>
     
     <summary type="html">
     
@@ -392,160 +552,6 @@
     
       <category term="操作系统" scheme="http://luoxn28.github.io/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
     
-    
-  </entry>
-  
-  <entry>
-    <title>磁盘操作</title>
-    <link href="http://luoxn28.github.io/2020/04/08/ci-pan-cao-zuo/"/>
-    <id>http://luoxn28.github.io/2020/04/08/ci-pan-cao-zuo/</id>
-    <published>2020-04-08T14:48:36.000Z</published>
-    <updated>2020-04-10T22:41:30.984Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;blockquote&gt;
-&lt;p&gt;磁盘作为计算机的底层存储，重要性不言而喻，操作系统的启动程序就是存在在磁盘的开始位置上的。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;磁盘是由多个盘片组成的，每个盘边两面都是可以存储数据。每个盘边对应一个读写磁头，所有读写磁头都是在同一个磁臂上，盘
-        
-      
-    
-    </summary>
-    
-      <category term="操作系统" scheme="http://luoxn28.github.io/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>大数据存储的秘密之分区</title>
-    <link href="http://luoxn28.github.io/2020/04/06/da-shu-ju-cun-chu-de-mi-mi-zhi-fen-qu/"/>
-    <id>http://luoxn28.github.io/2020/04/06/da-shu-ju-cun-chu-de-mi-mi-zhi-fen-qu/</id>
-    <published>2020-04-06T10:16:14.000Z</published>
-    <updated>2020-07-03T02:47:08.447Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;blockquote&gt;
-&lt;p&gt;分区，又称为分片，是解决大数据存储的常见解决方案，大数据存储量超过了单节点的存储上限，因此需要进行分区操作将数据分散存储在不同节点上，通常每个单个分区可以理解成一个小型的数据库，尽管数据库能同时支持多个分区操作；分区引入多分区概念，可以同时对外服务
-        
-      
-    
-    </summary>
-    
-      <category term="分布式" scheme="http://luoxn28.github.io/categories/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>数据序列化那些事</title>
-    <link href="http://luoxn28.github.io/2020/04/06/shu-ju-xu-lie-hua-na-xie-shi/"/>
-    <id>http://luoxn28.github.io/2020/04/06/shu-ju-xu-lie-hua-na-xie-shi/</id>
-    <published>2020-04-06T10:16:14.000Z</published>
-    <updated>2020-07-03T02:47:08.446Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;blockquote&gt;
-&lt;p&gt;关于数据序列化，首先要了解为什么需要序列化以及数据序列化的意义是什么，然后再了解下当前较为广泛的几种序列化方式。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;&lt;strong&gt;为什么需要数据序列化呢&lt;/strong&gt;？因为数据要“传输”，比如将数据网络
-        
-      
-    
-    </summary>
-    
-      <category term="分布式" scheme="http://luoxn28.github.io/categories/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>高可用的本质-复制</title>
-    <link href="http://luoxn28.github.io/2020/04/06/gao-ke-yong-de-ben-zhi-fu-zhi/"/>
-    <id>http://luoxn28.github.io/2020/04/06/gao-ke-yong-de-ben-zhi-fu-zhi/</id>
-    <published>2020-04-06T10:16:14.000Z</published>
-    <updated>2020-07-03T02:47:08.461Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;服务和数据的高可用性本质上是靠“复制”来解决的，比如服务通过集群部署多台机器来完成，数据通过冗余的多副本机制来完成。对于服务来说，只需要部署多个实例即可，特别是无状态服务，常见的微服务(dubbo/spring
-        
-      
-    
-    </summary>
-    
-      <category term="分布式" scheme="http://luoxn28.github.io/categories/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>页式内存管理</title>
-    <link href="http://luoxn28.github.io/2020/03/31/ye-shi-nei-cun-guan-li/"/>
-    <id>http://luoxn28.github.io/2020/03/31/ye-shi-nei-cun-guan-li/</id>
-    <published>2020-03-31T15:35:45.000Z</published>
-    <updated>2020-04-06T09:01:08.801Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h2 id=&quot;内存管理&quot;&gt;&lt;a href=&quot;#内存管理&quot; class=&quot;headerlink&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="操作系统" scheme="http://luoxn28.github.io/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>group by中子查询order by排序失效问题分析</title>
-    <link href="http://luoxn28.github.io/2020/03/17/group-by-zhong-zi-cha-xun-order-by-pai-xu-shi-xiao-wen-ti-fen-xi/"/>
-    <id>http://luoxn28.github.io/2020/03/17/group-by-zhong-zi-cha-xun-order-by-pai-xu-shi-xiao-wen-ti-fen-xi/</id>
-    <published>2020-03-17T09:24:25.000Z</published>
-    <updated>2020-07-03T02:44:24.743Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;blockquote&gt;
-&lt;p&gt;通过sql分组查询数据时，一般通过group by来完成，group
-        
-      
-    
-    </summary>
-    
-      <category term="数据库" scheme="http://luoxn28.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
-    
-    
-      <category term="mysql" scheme="http://luoxn28.github.io/tags/mysql/"/>
     
   </entry>
   
